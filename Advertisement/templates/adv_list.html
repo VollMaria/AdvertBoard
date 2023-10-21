@@ -1,0 +1,50 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+<h1 style="text-align: center;"><strong>ДОСКА ОБЪЯВЛЕНИЙ</strong></h1>
+{% endblock title %}
+
+{% block content %}
+    <h1>Объявления</h1>
+    <h2>Всего объявлений: {{ advertisements|length }}</h2>
+    <hr>
+    {% if advertisements %}
+
+        {% if perms.advapp.add_advertisement %}
+        <a href="{% url 'adv_create' %}">Добавить объявление</a>
+        {% endif %}
+
+            {% for advertisement in advertisements %}
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <div class="small text">{{ advertisement.author.username }}</div>
+                    <h5 class="card-title">{{ advertisement.title}}</h5>
+                    <p class="card-text">{{ advertisement.content|safe }}</p>
+                    <a href="{% url 'add_response' %}" class="btn btn-primary">Откликнуться</a>
+                </div>
+            </div>
+            {% endfor %}
+    {% else %}
+    <h2>Объявлений нет!</h2>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+           ...
+            <a href="?page={{page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+            <a href="?page={{page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+

@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+<h1 style="text-align: center;"><strong>ДОСКА ОБЪЯВЛЕНИЙ</strong></h1>
+<hr/>
+{% endblock title %}
+
+{% block content %}
+    <p align="center"><b><big>{{ advertisement.title }}</big></b>
+    {{ advertisement.date }}</p>
+    <hr>
+<p align="left">{{ advertisement.author }} {{ advertisement.category }}</p>
+<p align="left">{{ advertisement.text }}</p>
+
+<td>
+                    {% if perms.advapp.change_advertisement %}
+                    <a href="{% url 'adv_edit' pk=advertisement.id %}">Изменить</a>
+                    {% endif %}
+                    {% if perms.advapp.delete_advertisement %}
+                    <a href="{% url 'adv_delete' pk=advertisement.id %}">Удалить</a>
+                    {% endif %}
+                </td>
+
+
+{% endblock content %}
