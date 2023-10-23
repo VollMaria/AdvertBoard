@@ -22,12 +22,18 @@ class AdvDetail(DetailView):
     paginate_by = 3
 
 
-class AdvCreate(PermissionRequiredMixin, CreateView):
+class AdvCreate(LoginRequiredMixin, CreateView):
     raise_exception = True
-    permission_required = ('advapp.add_advertisement',)
     form_class = AdvForm
     model = Advertisement
     template_name = 'adv_edit.html'
+    success_url = reverse_lazy('adv_list')
+
+    def form_valid(self, form):
+        advertisement = form.save(commit=False)
+        advertisement.author = self.request.user
+        advertisement.save()
+        return super().form_valid(form)
 
 
 class AdvEdit(PermissionRequiredMixin, UpdateView):

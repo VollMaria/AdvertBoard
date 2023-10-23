@@ -8,7 +8,6 @@ class AdvForm(forms.ModelForm):
         fields = [
             'title',
             'category',
-            'author',
             'content',
             'file',
         ]
@@ -18,8 +17,6 @@ class ResponseForm(forms.ModelForm):
     class Meta:
         model = Response
         fields = [
-            'author',
-            'advertisement',
             'text',
         ]
 
