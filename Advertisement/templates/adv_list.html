@@ -23,9 +23,13 @@
     {% else %}
     <h2>Объявлений нет!</h2>
     {% endif %}
-    {% if perms.advapp.add_advertisement %}
-        <a href="{% url 'adv_create' %}">Добавить объявление</a>
-        {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'adv_create' %}">Добавить объявление</a>
+    {% else %}
+    {{ empty }}
+    {% endif %}
+
     {% if page_obj.has_previous %}
         <a href="?page=1">1</a>
         {% if page_obj.previous_page_number != 1 %}

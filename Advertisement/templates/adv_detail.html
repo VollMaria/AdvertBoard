@@ -11,16 +11,20 @@
     <hr>
 <p align="left">{{ advertisement.author }} {{ advertisement.category }}</p>
 <p align="left">{{ advertisement.content }}</p>
-<p align="left"> <a href="{% url 'add_response' %}" class="btn btn-primary">Откликнуться</a></p>
+{% if request.user.is_authenticated and request.user != advertisement.author %}
+    <p align="left"> <a href="{% url 'add_response' pk=advertisement.id %}" class="btn btn-primary">Откликнуться</a></p>
+{% else %}
+    {{ empty }}
+{% endif %}
 
 <td>
-    {% if perms.advapp.change_advertisement %}
-    <a href="{% url 'adv_edit' pk=advertisement.id %}">Изменить</a>
+    {% if request.user.is_authenticated and request.user == advertisement.author %}
+        <a href="{% url 'adv_edit' pk=advertisement.id %}">Изменить</a>
+        <a href="{% url 'adv_delete' pk=advertisement.id %}">Удалить</a>
+    {% else %}
+        {{ empty }}
     {% endif %}
-    {% if perms.advapp.delete_advertisement %}
-    <a href="{% url 'adv_delete' pk=advertisement.id %}">Удалить</a>
-    {% endif %}
-</td>
 
+</td>
 
 {% endblock content %}
