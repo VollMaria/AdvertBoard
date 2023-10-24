@@ -1,0 +1,59 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Мои объявления</h1>
+<hr>
+    {% if profile %}
+        <table>
+            <tr>
+                <td>Название</td>
+                <td>Дата</td>
+                <td>Категория</td>
+                <td>Автор</td>
+            </tr>
+
+            {% for advertisement in profile %}
+            <tr>
+                <td>
+                    <a href="{% url 'adv_detail' pk=advertisement.id %}">{{ advertisement.title }}</a>
+                </td>
+                <td>{{ advertisement.date }}</td>
+                <td>{{ advertisement.category }}</td>
+                <td>{{ advertisement.author }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+    <h2>Объявлений нет!</h2>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'adv_create' %}">Добавить объявление</a>
+    {% else %}
+    {{ empty }}
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+           ...
+            <a href="?page={{page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+            <a href="?page={{page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+<p align="left"><a href="{% url 'responses' %}">ОТКЛИКИ</a></p>
+
+
+{% endblock content %}

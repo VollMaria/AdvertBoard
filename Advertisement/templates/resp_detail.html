@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<hr>
+  <h3>Отклик на {{ response.advertisement.title }}</h3>
+
+<p align="center"><b><big>Автор: {{ response.author }}</big></b>
+    {{ advertisement.date }}</p>
+    <hr>
+<p align="left">Сообщение: {{ response.text }}</p>
+{% if request.user == response.advertisement.author %}
+    <p align="left"> <a href="{% url 'response_good' response=response.id advertisement=response.advertisement.id %}" class="btn btn-primary">Принять отклик</a></p>
+    <p align="left"> <a href="{% url 'response_bad' response=response.id advertisement=response.advertisement.id %}" class="btn btn-primary">Отклонить отклик</a></p>
+{% else %}
+    {{ empty }}
+{% endif %}
+    <p align="left"> <a href="{% url 'resp_delete' pk=response.id %}" class="btn btn-primary">Удалить отклик</a></p>
+{% endblock %}

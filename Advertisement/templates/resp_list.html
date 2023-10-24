@@ -1,0 +1,12 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<p align="center"><b><big>Отклики</big></b></p>
+<hr>
+{% if responses %}
+    {% for response in responses %}
+        <p align="left">Объявление: {{ response.advertisement.title }} </p>
+        <p align="left">Отклик от: <a href="{% url 'response' pk=response.id %}">{{ response.author }}</a></p>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
